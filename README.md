@@ -4,37 +4,9 @@ AI Research Analyst is an agentic research system that converts a user query int
 
 Built with LangGraph, FastAPI, Pydantic, and SQLite, the project explores workflow orchestration, parallel execution, state management, persistence, and human oversight in AI systems.
 
-## How It Works
+## How It Works/ Workflow
 
-```text
-User Query
-    │
-    ▼
-Query Analysis
-    │
-    ▼
-Task Planning
-    │
-    ▼
-Research Strategy
-    │
-    ▼
-Parallel Research
-(Web • News • Reddit • Papers)
-    │
-    ▼
-Aggregation
-    │
-    ▼
-Evaluation
-    │
-    ▼
-Human Review (Optional)
-    │
-    ▼
-Final Response
-```
-
+![AI Research Analyst Workflow](research_analyst_graph.png)
 ## Features
 
 * Query understanding and refinement
