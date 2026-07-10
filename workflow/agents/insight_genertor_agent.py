@@ -17,8 +17,14 @@ def insight_agent(original_query, refined_query,explanation_style,research_depth
         )
         logger.info("Invoking LLM")
         llm = get_chat_model().with_structured_output(InsightState)
+        
+
+        response=llm.invoke(prompt)
+        if response is None:
+            logger.exception("No response from insight agent!!")
+            raise ValueError("Insight Agent no response")
         logger.info("Insight reponse received")
-        return llm.invoke(prompt)
+        return response
     except Exception as e:
-        logger.exception(f"Insight Agent failed")
-        raise
+        logger.exception(f"Insight Agent failed {e}")
+        raise e

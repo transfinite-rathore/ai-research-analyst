@@ -30,4 +30,4 @@ def research_refinement_agent(
         return response
     except Exception as e :
         logger.exception("Refinement Agent Failed!!")
-        raise
+        raise e

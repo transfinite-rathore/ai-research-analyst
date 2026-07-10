@@ -31,8 +31,10 @@ def report_writer_agent(
         )
 
         response = llm.invoke(prompt)
-
-        logger.info("Report Agent successfull")
+        if response is None:
+            logger.exception("No response from Report Writer agent!!")
+            raise ValueError("Report writer Agent no response")
+        logger.info("Report writer Agent successfull")
 
         return response
 

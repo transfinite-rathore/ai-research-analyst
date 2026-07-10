@@ -1,7 +1,9 @@
 from workflow.prompt.research_orch_prompt import research_strategy_prompt
 from workflow.chat_models.get_model import get_chat_model
 from ..graph.structured_output.research_state_output import ResearchStrategyOutput
+import logging
 
+logger = logging.getLogger(__name__)
 
 
 def research_agent(task:str):
@@ -11,4 +13,6 @@ def research_agent(task:str):
         response = llm.invoke(prompt)
         return response
     except Exception as e :
-        print(f"Researcher Agent error {e}")
+        # print(f"Researcher Agent error {e}")
+        logger.exception("Researcher Agent error")
+        raise e

@@ -2,6 +2,7 @@ import logging
 import json
 import uuid
 import sqlite3
+from pathlib import Path
 from langgraph.types import Command
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.sqlite import SqliteSaver
@@ -17,8 +18,14 @@ from logging_config import setup_logger
 
 setup_logger()
 logger = logging.getLogger(__name__)
+BASE_DIR = Path(__file__).resolve().parent.parent  # Adjust based on this file's location
 
-conn = sqlite3.connect("ai_analyst_cp.sqlite", check_same_thread=False)
+DB_DIR = BASE_DIR / "db"/"data"
+DB_DIR.mkdir(exist_ok=True)
+
+DB_PATH = DB_DIR / "ai_analyst_cp.sqlite"
+
+conn = sqlite3.connect(DB_PATH, check_same_thread=False)
 checkpointer = SqliteSaver(conn)
 
 # conn = sqlite3.connect(
@@ -39,13 +46,20 @@ graph = StateGraph(AnalystState)
 research_subgraph = get_research_graph().compile()
 sub_png_bytes = research_subgraph.get_graph().draw_mermaid_png()
 
-with open("research_subgraph.png", "wb") as f:
+BASE_DIR = Path(__file__).resolve().parent  # Adjust based on this file's location
+
+SNAPSHOT_DIR = BASE_DIR / "workflow_snapshots"
+SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+
+GRAPH_PATH = SNAPSHOT_DIR / "research_subgraph.png"
+
+with open(GRAPH_PATH, "wb") as f:
     f.write(sub_png_bytes)
 
 # Router
 
-MAX_ITERATIONS = 3
-QUALITY_THRESHOLD = 4.5
+MAX_ITERATIONS = 2
+QUALITY_THRESHOLD = 3.5
 
 def evaluation_router(state: AnalystState):
 
@@ -188,8 +202,19 @@ graph.add_edge(
 workflow = graph.compile(checkpointer=checkpointer)
 png_bytes = workflow.get_graph().draw_mermaid_png()
 
-with open("research_analyst_graph.png", "wb") as f:
+# file_path=PATH(__file__)
+BASE_DIR = Path(__file__).resolve().parent  # Adjust based on this file's location
+
+SNAPSHOT_DIR = BASE_DIR / "workflow_snapshots"
+SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+
+GRAPH_PATH = SNAPSHOT_DIR / "research_analyst_graph.png"
+
+with open(GRAPH_PATH, "wb") as f:
     f.write(png_bytes)
+
+# with open("workflow_snap_shots\\research_analyst_graph.png", "wb") as f:
+#     f.write(png_bytes)
 
 # =========================================
 # RUN
@@ -206,7 +231,7 @@ config = {
         "thread_id": "thread_01"
     }
 }
-final_state = workflow.invoke(initial_state,config=config)
+# final_state = workflow.invoke(initial_state,config=config)
 
 # snapshot = workflow.get_state(config)
 

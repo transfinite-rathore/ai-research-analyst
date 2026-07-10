@@ -11,7 +11,15 @@ def evaluation_agent(query:str,agg_summary:str):
         logger.info("Evaluation Agent stated!")
         llm = get_chat_model().with_structured_output(EvaluationState) # type: ignore
         prompt=evaluation_prompt.format(user_query=query,research_findings=agg_summary)
-        res=llm.invoke(prompt)
-        return res
+        
+        response=llm.invoke(prompt)
+        
+        if response is None:
+            logger.exception("No response from Evaluation agent!!")
+            raise ValueError("Evaluation Agent no response")
+        logger.info("Evaluation reponse received")
+        return response
+    
     except Exception as e:
-        logger.exception("Evaluation Agent Failed!!")
+        logger.exception("Evaluation Agent Failed!!",str(e))
+        raise e

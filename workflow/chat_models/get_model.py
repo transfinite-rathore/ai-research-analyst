@@ -1,22 +1,36 @@
-from load_dotenv import load_dotenv
-import os
-from langchain_openrouter import ChatOpenRouter
 import logging
+from workflow.chat_models.llmfactory import ChatModelFactory
+from workflow.chat_models.groq import GroqProvider
+from workflow.chat_models.openrouter import OpenRouterProvider
+from workflow.chat_models.llmfactory import LLMConfig
+
 logger = logging.getLogger(__name__)
-load_dotenv()
 
 try:
-    chat_model = ChatOpenRouter(
+    provider_registry={
+        "openrouter": OpenRouterProvider,
+        "groq": GroqProvider,
+        # "openai": OpenAIProvider,
+    }
+    
+#     config = LLMConfig(
+#     provider="groq",
+#     model="llama-3.3-70b",
+#     temperature=0,
+# )
+    config = LLMConfig(
+        provider="openrouter",
         model="nvidia/nemotron-nano-9b-v2:free",
-        temperature=0.8,
-        api_key=os.getenv("API_KEY")  # pyright: ignore[reportArgumentType]
+        temperature=0
+    )
 
-        )
-    logger.info("LLM Connection successfull!!")
+    factory = ChatModelFactory(config)
+
+    llm = factory.get_model()
 except:
     logger.exception("LLM Failed!")
     raise
 
 def get_chat_model():
 
-    return chat_model
+    return llm
