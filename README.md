@@ -6,7 +6,7 @@ Built with LangGraph, FastAPI, Pydantic, and SQLite, the project explores workfl
 
 ## How It Works/ Workflow
 
-![AI Research Analyst Workflow](research_analyst_graph.png)
+![AI Research Analyst Workflow](workflow/workflow_snapshots/research_analyst_graph.png)
 ## Features
 
 * Query understanding and refinement
