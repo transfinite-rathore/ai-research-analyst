@@ -29,18 +29,6 @@ class ResearchTask(BaseModel):
     error: str | None = None
 
 
-# class ResearchTask(BaseModel): 
-#     research_task_id : str
-#     parent_task_id : str
-#     task_objective: str
-#     research_platform : ResearchPlatform
-#     created_at : datetime
-#     search_query : str
-#     status : Status
-#     # assigned_agent : AgentType
-#     error_message : Optional[str]=None
-#     completed_at : Optional[datetime]=None
-#     research_finding : Optional[List[str]]=None
 
 class ResearchOutput(BaseModel):
     result: str| list[dict]
@@ -51,17 +39,7 @@ class ResearchOutput(BaseModel):
     status:Status
     completed_at : Optional[datetime]=None
 
-# class Insight(BaseModel):
-#     insight_id : str
-#     source : List[str]
-#     insight : str
-#     insight_reasoning : str
-#     created_at : datetime
 
-# class Insight(BaseModel):
-#     insight: str
-#     evidence: list[str]
-#     confidence: Literal["low", "medium", "high"]
 class Insight(TypedDict):
     insight: str
     evidence: list[str]

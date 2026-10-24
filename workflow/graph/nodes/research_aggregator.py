@@ -2,21 +2,6 @@ from ..states.analyst_state import AnalystState
 import logging
 logger = logging.getLogger(__name__)
 
-# def aggregate_results(state: ResearchState):
-
-#     results = state.get("result", [])
-#     # print("Aggregator State ",state)
-#     aggregated_summary = "\n".join(
-#         result.result
-#         for result in results
-#         if getattr(result, "result", None)
-#     )
-
-#     return {
-#         "findings": results,
-#         "aggregated_summary": aggregated_summary
-#     }
-
 
 def aggregate_result(state: AnalystState):
     research = state.get("research", {})

@@ -15,7 +15,6 @@ def planning_node(state : AnalystState):
         logger.info("Entered Planner")
         # print(state)
         refined_user_query = state["query"]["refined_query"]
-        # logger.info(f"refined user query {refined_user_query}")
         response = planning_agent(refined_user_query)
         final_task=[]
         for task in response.planned_task:
@@ -26,34 +25,14 @@ def planning_node(state : AnalystState):
                 created_at = datetime.now()
             )
             final_task.append(one_task)
-        # decision = interrupt({
-        #     "message": "Plans are generated if you like proceed with Yes/No",
-        #     "Finalized_task": [
-        #         {
-        #             "task_id": t.task_id,
-        #             "task_objective": t.task_objective,
-        #             "assigned_agent": t.assigned_agent,
-        #             "status": t.status,
-        #         }
-        #         for t in final_task
-        #     ],
-        #     "allowed_actions": ["yes", "no"]
-        # })
-        # if decision["action"].lower()=="yes":
-        # print("planned tasks",final_task)
-        # exit()
+
         return {
             "planning": {
                 "tasks" : final_task,
                 "plan_reasoning": response.reasoning
             }
         }
-    #     else:
-    #         return Command(
-    #             goto="planner"
-    #         )
-    # except GraphInterrupt:
-    #     raise
+
     except:
         logger.exception("Planning Node Failed!!")
         raise

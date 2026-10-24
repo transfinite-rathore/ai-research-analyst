@@ -13,4 +13,3 @@ def search_news(query:str):
     result = tool.invoke(query)
     return result
 
-# print(search_news("quantum computing"))

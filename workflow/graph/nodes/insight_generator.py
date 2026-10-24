@@ -7,8 +7,6 @@ logger = logging.getLogger(__name__)
 def generate_insight(state:AnalystState):
     try:
         logger.info("Inside Generating Insights")
-        # logger.info("Print whole state %s",state)
-        # logger.info("Print query state %s",state["query"])
         
         original_query=state["query"]["user_query"]
         research_depth=state["query"]["research_depth"]
