@@ -10,6 +10,7 @@ def planning_agent(refined_user_query:str|None):
     try:
         llm = get_chat_model().with_structured_output(PlanningTask)
         response = llm.invoke(refined_user_query)
+        # print("Planning agent response ",response)
         if response is None:
             logger.info()
             raise ValueError("")

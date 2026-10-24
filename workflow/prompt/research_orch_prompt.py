@@ -24,7 +24,7 @@ Input Tasks:
 {tasks}
 
 Return structured output matching:
-ResearchPlatform = Literal["websearch","reddit","news","Research Paper"]
+ResearchPlatform = Literal["websearch","reddit","news","research_paper"]
 
 class ResearchExecutionPlan(BaseModel):
 

@@ -1,10 +1,12 @@
 from workflow.chat_models.groq import GroqProvider
 from workflow.chat_models.openrouter import OpenRouterProvider
+from workflow.chat_models.gemini import GeminiModel
 from dataclasses import dataclass
 
 provider_registry = {
     "openrouter": OpenRouterProvider,
     "groq": GroqProvider,
+    "gemini":GeminiModel
 }
 
 @dataclass

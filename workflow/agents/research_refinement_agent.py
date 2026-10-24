@@ -1,7 +1,7 @@
 import logging
 from workflow.prompt.research_refinement_prompt import research_refinement_prompt
 from workflow.chat_models.get_model import get_chat_model
-from ..utils.models import Task
+from ..utils.models import ResearchTask
 from ..graph.states.refinement_state import RefinementState
 from ..graph.states.evaluation_state import EvaluationState
 
@@ -9,7 +9,7 @@ from ..graph.states.evaluation_state import EvaluationState
 logger = logging.getLogger(__name__)
 def research_refinement_agent(
             original_query:str,
-            tasks:Task,
+            tasks:ResearchTask,
             summary:str,
             evaluation:EvaluationState):
     try:

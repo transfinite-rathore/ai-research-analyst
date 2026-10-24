@@ -15,21 +15,32 @@ class Task(BaseModel):
     completed_at : Optional[datetime]=None
     source : Optional[List[str]] =None
 
-
-
-
-class ResearchTask(BaseModel): 
-    research_task_id : str
-    parent_task_id : str
+class ResearchTask(BaseModel):
+    research_task_id: str
+    parent_task_id: str
     task_objective: str
-    research_platform : ResearchPlatform
-    created_at : datetime
-    search_query : str
-    status : Status
-    # assigned_agent : AgentType
-    error_message : Optional[str]=None
-    completed_at : Optional[datetime]=None
-    research_finding : Optional[List[str]]=None
+    research_platform: str
+    search_query: str
+    status: Status
+    created_at: datetime
+
+    # NEW: filled by the worker
+    items: list[dict] = []         # [{"url": ..., "summary": ...}]
+    error: str | None = None
+
+
+# class ResearchTask(BaseModel): 
+#     research_task_id : str
+#     parent_task_id : str
+#     task_objective: str
+#     research_platform : ResearchPlatform
+#     created_at : datetime
+#     search_query : str
+#     status : Status
+#     # assigned_agent : AgentType
+#     error_message : Optional[str]=None
+#     completed_at : Optional[datetime]=None
+#     research_finding : Optional[List[str]]=None
 
 class ResearchOutput(BaseModel):
     result: str| list[dict]

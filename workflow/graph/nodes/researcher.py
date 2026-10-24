@@ -1,5 +1,5 @@
 import logging
-from ..states.analyst_state import ResearchState
+from ..states.analyst_state import AnalystState
 from ...agents.research_strategy_agent import research_agent
 from ...utils.types import *
 from ...utils.models import ResearchTask
@@ -8,44 +8,24 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
-def research_node(state: ResearchState):
+def research_node(state: AnalystState):
     try:
         # print("Entered Researcher")
         logger.info("Entered Researcher")
-        tasks = state["tasks"]
+        tasks = [i for i in state["planning"]["tasks"] if i.assigned_agent=="Researcher"]
 
         formatted_tasks = ""
 
         for task in tasks:
+            formatted_tasks += f" Task ID: {task.task_id} Objective: {task.task_objective}"
 
-            formatted_tasks += f"""
-            Task ID: {task.task_id}
-            Objective: {task.task_objective}
-            """
-
-        strategy_response = research_agent(
-            formatted_tasks
-        )
-        # logger.info("Research Agent response ",strategy_response)
-        web_search_tasks = []
-
-        reddit_search_tasks = []
-
-        news_search_tasks = []
-
-        paper_search_tasks = []
-
+        strategy_response = research_agent( formatted_tasks )
+        search_task=[]
         # Faster lookup
-        task_map = {
-            task.task_id: task
-            for task in tasks
-        }
+        task_map = { task.task_id: task for task in tasks }
 
         for plan in strategy_response.execution_plans:
-
-            parent_task = task_map.get(
-                plan.parent_task_id
-            )
+            parent_task = task_map.get( plan.parent_task_id ) 
 
             if not parent_task:
                 continue
@@ -60,45 +40,15 @@ def research_node(state: ResearchState):
                 created_at=datetime.now()
             )
 
-            if plan.platform == "websearch":
-
-                web_search_tasks.append(
-                    research_task
-                )
-
-            elif plan.platform == "reddit":
-
-                reddit_search_tasks.append(
-                    research_task
-                )
-
-            elif plan.platform == "news":
-
-                news_search_tasks.append(
-                    research_task
-                )
-
-            elif plan.platform == "Research Paper":
-
-                paper_search_tasks.append(
-                    research_task
-                )
+            search_task.append(research_task)
 
         return {
-
-            "web_search_task":
-                web_search_tasks,
-
-            "reddit_search_task":
-                reddit_search_tasks,
-
-            "news_search_task":
-                news_search_tasks,
-
-            "paper_search_task":
-                paper_search_tasks
+            "research":{
+                 "search_tasks":search_task
+            }
+           
         }
-    except:
+    except Exception:
         logger.exception("Researcher Failed")
         raise
 

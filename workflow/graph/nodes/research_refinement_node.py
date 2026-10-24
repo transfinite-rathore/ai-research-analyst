@@ -14,7 +14,7 @@ def research_refinement_node(state: AnalystState):
 
         strategy_response = research_refinement_agent(
             original_query=query["user_query"],
-            tasks=research["tasks"],
+            tasks=research["search_tasks"],
             summary=research["aggregated_summary"],
             evaluation=evaluation
         )

@@ -10,3 +10,6 @@ def setup_logger():
             "%(message)s"
         )
     )
+    # Mute httpx and httpcore INFO logs
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logging.getLogger("httpcore").setLevel(logging.WARNING)

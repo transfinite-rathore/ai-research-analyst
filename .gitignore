@@ -16,6 +16,9 @@ env/
 *.db
 *.sqlite
 *.sqlite3
+*-shm
+*-wal
+
 
 # Logs
 *.log

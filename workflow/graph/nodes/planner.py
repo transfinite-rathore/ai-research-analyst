@@ -13,6 +13,7 @@ def planning_node(state : AnalystState):
     # print("Entered Planner")
     try:
         logger.info("Entered Planner")
+        # print(state)
         refined_user_query = state["query"]["refined_query"]
         # logger.info(f"refined user query {refined_user_query}")
         response = planning_agent(refined_user_query)
@@ -39,7 +40,8 @@ def planning_node(state : AnalystState):
         #     "allowed_actions": ["yes", "no"]
         # })
         # if decision["action"].lower()=="yes":
-            
+        # print("planned tasks",final_task)
+        # exit()
         return {
             "planning": {
                 "tasks" : final_task,
