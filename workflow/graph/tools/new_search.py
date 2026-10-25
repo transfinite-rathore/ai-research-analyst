@@ -1,8 +1,10 @@
-from ...utils.models import ResearchOutput,ResearchTask
+from ...utils.models import ResearchTask
 from workflow.services.news_search import search_news
 from workflow.graph.tools.service_registry import register_search
+from config.latency_tracker import track_time
 
 @register_search("news")
+@track_time
 def news_search(task: ResearchTask) -> str:
     """Search the latest news and return the articles as text."""
     data = search_news(task.search_query)

@@ -4,11 +4,12 @@ from workflow.prompt.report_output_prompt import report_writer_prompt
 from ..graph.states.output_state import ReportOutputState
 from ..graph.states.insight_state import InsightState
 from ..graph.states.evaluation_state import EvaluationState
+from config.latency_tracker import track_time
 logger = logging.getLogger(__name__)
 
 llm = get_chat_model().with_structured_output(ReportOutputState)
 
-
+@track_time
 def report_writer_agent(
     original_query: str,
     explanation_style: str|None,

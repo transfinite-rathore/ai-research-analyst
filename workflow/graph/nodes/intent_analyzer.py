@@ -1,9 +1,12 @@
+import logging
 from ..states.analyst_state import AnalystState
 from ...agents.query_agent import query_agent
-import logging
+from config.latency_tracker import track_time
+
 
 logger = logging.getLogger(__name__)
 
+@track_time
 def analyze_input(state:AnalystState):
     try:
         logger.info("Entered Analyzer")
@@ -19,5 +22,5 @@ def analyze_input(state:AnalystState):
                 "explanation_style": response.get("explanation_style")
             }
         }
-    except:
-        logger.exception("Input Analyzer Failed !!")
+    except Exception as e:
+        logger.exception("Input Analyzer Failed !!",e)

@@ -1,8 +1,10 @@
 from ...utils.models import ResearchTask,ResearchOutput
 from workflow.services.paper_search import search_paper
 from workflow.graph.tools.service_registry import register_search
+from config.latency_tracker import track_time
 
 @register_search("research_paper")
+@track_time
 def papers_search(task: ResearchTask) -> str:
     """Search academic papers."""
     results = search_paper(task.search_query)

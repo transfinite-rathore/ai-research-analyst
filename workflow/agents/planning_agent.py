@@ -2,10 +2,10 @@ from workflow.prompt.intent_prompt import query_analysis_prompt
 from workflow.chat_models.get_model import get_chat_model
 from ..graph.structured_output.planning_state_output import PlanningTask
 import logging
-
+from config.latency_tracker import track_time
 logger =logging.getLogger(__name__)
 
-
+@track_time
 def planning_agent(refined_user_query:str|None):
     try:
         llm = get_chat_model().with_structured_output(PlanningTask)

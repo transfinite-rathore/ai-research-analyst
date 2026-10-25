@@ -1,9 +1,10 @@
 import logging
 from ..states.analyst_state import AnalystState
 from ...agents.insight_genertor_agent import insight_agent
-
+from config.latency_tracker import track_time
 logger = logging.getLogger(__name__)
 
+@track_time
 def generate_insight(state:AnalystState):
     try:
         logger.info("Inside Generating Insights")

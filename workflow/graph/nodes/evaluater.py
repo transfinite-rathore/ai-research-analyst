@@ -3,9 +3,11 @@ from ...agents.evaluationg_agent import evaluation_agent
 import logging
 from datetime import datetime
 from ...utils.mark_status import mark
-
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
+
+@track_time
 def evaluation_node(state:AnalystState):
     # print("Entered Evaluation node")
     logger.info("Evaluation Node")

@@ -7,10 +7,17 @@ from .graph.nodes.research_aggregator import aggregate_result
 from .graph.states.analyst_state import AnalystState
 from .graph.nodes.researcher import research_node
 from .graph.routers.task_router import route_task
+from config.latency_tracker import track_time
+from .graph.tools import (web_search,new_search,paper_search,reddit_search)
+from config.config_manager import get_config
 
-MAX_RETRIES=1
+MAX_RETRIES=get_config()["searching_retry"]
 
 
+print("registry id:", id(SEARCH_REGISTRY), "keys:", list(SEARCH_REGISTRY))
+
+
+@track_time
 def search_worker(state: dict):
     task = state["task"]
     fn = SEARCH_REGISTRY.get(task.research_platform)

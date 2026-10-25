@@ -1,14 +1,14 @@
 import logging
-from langgraph.types import interrupt,Command
-from langgraph.errors import GraphInterrupt
 from ...agents.planning_agent import planning_agent
 from ..states.analyst_state import AnalystState
 from ...utils.models import Task
 from uuid import uuid4
 from datetime import datetime
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
 
+@track_time
 def planning_node(state : AnalystState):
     # print("Entered Planner")
     try:

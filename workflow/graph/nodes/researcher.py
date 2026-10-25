@@ -5,9 +5,11 @@ from ...utils.types import *
 from ...utils.models import ResearchTask
 from uuid import uuid4
 from datetime import datetime
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
 
+@track_time
 def research_node(state: AnalystState):
     try:
         # print("Entered Researcher")

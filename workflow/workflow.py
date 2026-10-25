@@ -1,10 +1,6 @@
 import logging
-import json
-import sqlite3
 from pathlib import Path
-from langgraph.types import Command
 from langgraph.graph import StateGraph, START, END
-from langgraph.checkpoint.sqlite import SqliteSaver
 from .graph.states.analyst_state import AnalystState
 from .graph.routers.evaluation import evaluation_router
 from .graph.routers.approver_route import approval_router
@@ -17,18 +13,20 @@ from .research_subgraph import ResearchGraph
 from .graph.nodes.report_writer_node import report_writer_node
 from .graph.nodes.research_refinement_node import research_refinement_node
 from logging_config import setup_logger
+from config.latency_tracker import start_telemetry
 
 setup_logger()
 logger = logging.getLogger(__name__)
 BASE_DIR = Path(__file__).resolve().parent.parent  # Adjust based on this file's location
+print(str(BASE_DIR)+"logs/node_times.jsonl")
+start_telemetry(str(BASE_DIR)+"/logs/node_times_prl2.jsonl")
+# DB_DIR = BASE_DIR / "db"/"data"
+# DB_DIR.mkdir(exist_ok=True)
 
-DB_DIR = BASE_DIR / "db"/"data"
-DB_DIR.mkdir(exist_ok=True)
+# DB_PATH = DB_DIR / "ai_analyst_cp.sqlite"
 
-DB_PATH = DB_DIR / "ai_analyst_cp.sqlite"
-
-conn = sqlite3.connect(DB_PATH, check_same_thread=False)
-checkpointer = SqliteSaver(conn)
+# conn = sqlite3.connect(DB_PATH, check_same_thread=False)
+# checkpointer = SqliteSaver(conn)
 
 # conn = sqlite3.connect(
 #     "ai_analyst.db",
@@ -43,17 +41,17 @@ graph = StateGraph(AnalystState)
 
 
 research_subgraph = ResearchGraph().build()
-sub_png_bytes = research_subgraph.get_graph().draw_mermaid_png()
+# sub_png_bytes = research_subgraph.get_graph().draw_mermaid_png()
 
-BASE_DIR = Path(__file__).resolve().parent  # Adjust based on this file's location
+# BASE_DIR = Path(__file__).resolve().parent  # Adjust based on this file's location
 
-SNAPSHOT_DIR = BASE_DIR / "workflow_snapshots"
-SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+# SNAPSHOT_DIR = BASE_DIR / "workflow_snapshots"
+# SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
 
-GRAPH_PATH = SNAPSHOT_DIR / "research_subgraph.png"
+# GRAPH_PATH = SNAPSHOT_DIR / "research_subgraph.png"
 
-with open(GRAPH_PATH, "wb") as f:
-    f.write(sub_png_bytes)
+# with open(GRAPH_PATH, "wb") as f:
+#     f.write(sub_png_bytes)
 
 
 class AnalystWorkflow:
@@ -69,11 +67,8 @@ class AnalystWorkflow:
     def __init__(
         self,
         checkpointer=None,
-        max_research_rounds: int = 3,
-        quality_threshold: float = 3.5,
     ):
         self.checkpointer = checkpointer
-        self.max_rounds = max_research_rounds
         self._graph = self._build()          # built exactly once
 
     @property
@@ -107,7 +102,7 @@ class AnalystWorkflow:
         g.add_edge(self.INSIGHTS, self.APPROVER)
         g.add_conditional_edges(
             self.APPROVER,
-            approval_router,{"refine": self.REFINER, "report": self.REPORT}
+            approval_router,{"research_refiner": self.REFINER, "report_writer": self.REPORT}
             )
         g.add_edge(self.REPORT, END)
 

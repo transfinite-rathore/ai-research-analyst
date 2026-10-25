@@ -1,9 +1,10 @@
 from ...utils.models import ResearchTask,ResearchOutput
 from workflow.services.reddit_search import search_reddit
 from workflow.graph.tools.service_registry import register_search
-
+from config.latency_tracker import track_time
 
 @register_search("reddit")
+@track_time
 def reddit_search(task: ResearchTask) -> str:
     """Search Reddit discussions."""
     return search_reddit(task.search_query)

@@ -1,5 +1,6 @@
 from langchain_community.tools import RedditSearchRun
-
+from config.latency_tracker import track_time
+@track_time
 def search_reddit(query:str):
     try:
         reddit = RedditSearchRun()

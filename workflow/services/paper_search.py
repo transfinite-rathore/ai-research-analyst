@@ -1,6 +1,7 @@
 import arxiv
-
+from config.latency_tracker import track_time
 # TESTED OK
+@track_time
 def search_paper(query: str):
     try:
         client = arxiv.Client(

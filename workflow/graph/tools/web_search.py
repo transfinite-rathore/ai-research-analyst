@@ -4,8 +4,10 @@ from workflow.services.web_search import search_web
 from datetime import datetime
 from ...utils.types import ResearchPlatform
 from workflow.graph.tools.service_registry import register_search
+from config.latency_tracker import track_time
 
 @register_search("websearch")
+@track_time
 def search_query(task: ResearchTask) -> str:
     """Search the web and return the best matching data."""
     return search_web(task.search_query)

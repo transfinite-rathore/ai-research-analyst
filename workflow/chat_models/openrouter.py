@@ -1,9 +1,9 @@
+import os
 from workflow.chat_models.llmproviderinterface import LLMProvider
 from langchain_openrouter import ChatOpenRouter
-import os
 from load_dotenv import load_dotenv
-load_dotenv()
 
+load_dotenv()
 
 class OpenRouterProvider(LLMProvider):
 

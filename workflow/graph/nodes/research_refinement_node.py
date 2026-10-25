@@ -1,9 +1,11 @@
 import logging
 from ...graph.states.analyst_state import AnalystState
 from ...agents.research_refinement_agent import research_refinement_agent
+from config.latency_tracker import track_time
 
 logger= logging.getLogger(__name__)
 
+@track_time
 def research_refinement_node(state: AnalystState):
     try:
         logger.info("Entered Research Refinement")

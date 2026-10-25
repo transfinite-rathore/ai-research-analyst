@@ -2,10 +2,10 @@ from workflow.prompt.research_orch_prompt import research_strategy_prompt
 from workflow.chat_models.get_model import get_chat_model
 from ..graph.structured_output.research_state_output import ResearchStrategyOutput
 import logging
-
+from config.latency_tracker import track_time
 logger = logging.getLogger(__name__)
 
-
+@track_time
 def research_agent(task:str):
     try:
         llm = get_chat_model().with_structured_output(ResearchStrategyOutput)

@@ -19,6 +19,7 @@ env/
 *-shm
 *-wal
 
+*.json
 
 # Logs
 *.log

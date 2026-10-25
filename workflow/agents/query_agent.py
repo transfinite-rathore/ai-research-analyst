@@ -2,12 +2,12 @@ from ..prompt.intent_prompt import query_analysis_prompt
 from ..chat_models.get_model import get_chat_model
 from ..graph.structured_output.query_state_output import query_structured_output
 import logging
-
+from config.latency_tracker import track_time
 logger = logging.getLogger(__name__)
 
 
-
 ## Chat Model return structured output from the LLM based on prompt and query
+@track_time
 def query_agent(user_query:str):
     try:
         

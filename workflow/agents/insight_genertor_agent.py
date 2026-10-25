@@ -2,9 +2,10 @@ import logging
 from workflow.chat_models.get_model import get_chat_model
 from workflow.prompt.insight_generator_prompt import insight_prompt
 from ..graph.states.insight_state import InsightState
-
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
+@track_time
 def insight_agent(original_query, refined_query,explanation_style,research_depth, summary):
     try:
         logger.info("Inside Insight Agent ")

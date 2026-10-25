@@ -1,8 +1,10 @@
 from ..states.analyst_state import AnalystState
 import logging
+from config.latency_tracker import track_time
+
 logger = logging.getLogger(__name__)
 
-
+@track_time
 def aggregate_result(state: AnalystState):
     research = state.get("research", {})
     outputs = research.get("result", [])

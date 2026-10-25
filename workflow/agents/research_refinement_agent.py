@@ -4,9 +4,10 @@ from workflow.chat_models.get_model import get_chat_model
 from ..utils.models import ResearchTask
 from ..graph.states.refinement_state import RefinementState
 from ..graph.states.evaluation_state import EvaluationState
-
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
+@track_time
 def research_refinement_agent(
             original_query:str,
             tasks:ResearchTask,

@@ -1,0 +1,30 @@
+
+storage_targets:
+  - type: json
+    output_dir: "./output/results"
+    
+  - type: yaml
+    output_dir: ""
+
+llm:
+  active_provider: openrouter
+
+  provider: openrouter
+    model: xyz
+    temperature: 00
+    eval_temperature: 0
+
+  provider: gemini
+    model: xyz
+    temperature: 00
+    eval_temperature: 0
+
+  provider: groq
+    model: xyz
+    temperature: 00
+    eval_temperature: 0
+
+human_approval_max_iteration: 3
+evaluation_quality_threshold: 3
+evaluation_max_iteration: 3
+searching_retry: 3

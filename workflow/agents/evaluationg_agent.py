@@ -2,10 +2,11 @@ import logging
 from workflow.chat_models.get_model import get_chat_model
 from workflow.prompt.evaluator_prompt import evaluation_prompt
 from ..graph.states.evaluation_state import EvaluationState
+from config.latency_tracker import track_time
 
 logger = logging.getLogger(__name__)
 
-
+@track_time
 def evaluation_agent(query:str,agg_summary:str):
     try:
         logger.info("Evaluation Agent stated!")

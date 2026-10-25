@@ -1,9 +1,12 @@
 from langgraph.types import interrupt
 from ..states.analyst_state import AnalystState
 from ...utils.mark_status import mark
+from config.latency_tracker import track_time
+from config.config_manager import get_config
 
-MAX_ROUNDS=3
+MAX_ROUNDS=get_config()["human_approval_max_iteration"]
 
+@track_time
 def verify_human_response(response,rounds):
     if not isinstance(response,dict):
         return None,"",None, "Send response in Dict like {'answer':'yes'}."
