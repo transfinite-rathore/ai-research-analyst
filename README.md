@@ -62,7 +62,6 @@ uvicorn backend.main:app --reload
 
 ## Roadmap
 
-* Advanced Human-in-the-Loop workflows
 * Additional research providers
 * Frontend interface
 * Enhanced observability and tracing
